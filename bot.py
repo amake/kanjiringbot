@@ -22,5 +22,7 @@ auth.set_access_token(credentials['AccessToken'],
 api = tweepy.API(auth)
 
 def do_tweet(event, context):
-    api.update_status(kanjiring.random_snippet())
+    text = kanjiring.random_snippet()
+    api.update_status(text)
+    return text
 
