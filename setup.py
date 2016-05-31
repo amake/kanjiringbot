@@ -24,6 +24,6 @@ setup(
         'Programming Language :: Python :: 2.7',
     ],
     keywords='kanji hanzi ring twitter bot',
-    py_modules=['kanjiring', 'bot'],
+    py_modules=['kanjiring', 'bot', 'cjkinfo'],
     install_requires=['tweepy']
 )
