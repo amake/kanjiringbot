@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-import sys
-import random
-import re
-from codecs import open
-from collections import defaultdict
 
 '''
 Generate randomize rings of kanji with a shared component a la the classic
@@ -17,6 +12,12 @@ Requires cjk-decomp data from
 https://cjkdecomp.codeplex.com/wikipage?title=cjk-decomp
 to be present in the CWD.
 '''
+
+import sys
+import random
+import re
+from codecs import open
+from collections import defaultdict
 
 directions = ['top', 'right', 'bottom', 'left']
 
