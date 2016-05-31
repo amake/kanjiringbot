@@ -35,6 +35,8 @@ bmp_only = False
 
 mobile_only = True
 
+non_radicals_only = True
+
 with open('cjk-decomp-0.4.0.txt', encoding='utf-8') as f:
     for line in f:
         m = format.match(line)
@@ -60,6 +62,9 @@ with open('cjk-decomp-0.4.0.txt', encoding='utf-8') as f:
             continue
         if mobile_only and any(not cjkinfo.mobile_ok.match(c)
                                for c in dchars + [char]):
+            continue
+        if non_radicals_only and any(c in cjkinfo.radicals
+                                     for c in dchars + [char]):
             continue
         horizontal = dtype == 'a'
         center_chars[dchars[0]]['right' if horizontal else 'bottom'].add(char)
