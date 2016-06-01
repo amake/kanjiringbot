@@ -44,17 +44,14 @@ with open('cjk-decomp-0.4.0.txt', encoding='utf-8') as f:
         char, dtype, dchars = [m.group(field)
                                for field in ['char', 'dtype', 'dchars']]
         dchars = dchars.split(',')
-        if dtype not in ['a', 'd']:
-            # Ignore entries with decomposition type other than 'across'
-            # and 'down'
+        if dtype not in ['a', 'ra', 'd', 'rd']:
+            # Ignore entries with decomposition type other than
+            # 'across', 'down', 'repeated across', or 'repeated down'
             continue
-        if len(char) == 5:
-            # Ignore non-Unicode intermediate decompositions
+        if dtype in ['a', 'd'] and len(dchars) != 2:
+            # Ignore a, d entries with more than two components
             continue
-        if len(dchars) != 2:
-            # Ignore entries with more than two components
-            continue
-        if any(len(c) == 5 for c in dchars):
+        if any(len(c) == 5 for c in dchars + [char]):
             # Ignore entries with intermediate components
             continue
         if bmp_only and any(ord(c) > 0xffff for c in dchars + [char]):
@@ -67,7 +64,9 @@ with open('cjk-decomp-0.4.0.txt', encoding='utf-8') as f:
         if non_radicals_only and any(c in cjkinfo.radicals
                                      for c in dchars + [char]):
             continue
-        horizontal = dtype == 'a'
+        if dtype in ['ra', 'rd']:
+            dchars += dchars
+        horizontal = dtype in ['a', 'ra']
         center_chars[dchars[0]]['right' if horizontal else 'bottom'].add(char)
         center_chars[dchars[-1]]['left' if horizontal else 'top'].add(char)
         decomp[char] = dchars
