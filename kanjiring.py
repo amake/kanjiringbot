@@ -13,6 +13,7 @@ https://cjkdecomp.codeplex.com/wikipage?title=cjk-decomp
 to be present in the CWD.
 '''
 
+from __future__ import print_function
 import sys
 import random
 import re
@@ -101,14 +102,14 @@ def random_snippet():
 
 
 if __name__ == '__main__':
-    print 'Rings available for:'
-    print ''.join(c for c, w in center_chars.iteritems() if is_complete(w))
+    print('Rings available for:')
+    print(''.join(c for c, w in center_chars.iteritems() if is_complete(w)))
     centers = [arg.decode('utf-8') for arg in sys.argv[1:]]
     if not centers:
         centers = random_center()
     for c in centers:
         trbl = random_ring(c)
         if trbl is None:
-            print 'No ring possible for', c
+            print('No ring possible for', c)
             continue
-        print make_snippet(c, trbl)
+        print(make_snippet(c, trbl))

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import tweepy
 import json
@@ -16,7 +17,7 @@ if os.path.isfile(creds_file):
         credentials = json.load(infile)
     if all(item in credentials for item in ['ConsumerKey', 'ConsumerSecret',
                                             'AccessToken', 'AccessSecret']):
-        print 'Nothing to do.'
+        print('Nothing to do.')
         exit(0)
 
 for item in ['ConsumerKey', 'ConsumerSecret']:
@@ -30,11 +31,11 @@ auth = tweepy.OAuthHandler(credentials['ConsumerKey'],
 
 auth_url = auth.get_authorization_url()
 
-print 'Go to:', auth_url
+print('Go to:', auth_url)
 
 verifier = raw_input('PIN: ')
 credentials['AccessToken'], credentials['AccessSecret'] = auth.get_access_token(verifier)
 
 write_creds(credentials)
 
-print 'Done'
+print('Done')
