@@ -6,7 +6,7 @@ import re
 
 # Characters in CJK Unified Ideographs that are radicals and not full
 # characters (compiled manually; probably not exhaustive)
-radicals = u'丨氵冫宀乛乚亻刂㔾幺彐忄扌氺灬爫丬犭罒礻糹纟罓耂艹衤覀讠辶钅阝飠饣'
+radicals = u'㔾丨丬乚乛亻冫刂宀幺彐忄扌氵氺灬爫犭礻糹纟罒罓耂艹衤覀讠辶钅阝飠饣'
 
 # Regex matching characters for which glyphs are included on iOS 9.3
 # and Android SDK 23. See:
