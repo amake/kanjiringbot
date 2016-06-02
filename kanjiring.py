@@ -38,7 +38,7 @@ mobile_only = True
 
 non_radicals_only = True
 
-with open('cjk-decomp-0.4.0.txt', encoding='utf-8') as f:
+with open('cjk-decomp/cjk-decomp.txt', encoding='utf-8') as f:
     for line in f:
         m = format.match(line)
         char, dtype, dchars = [m.group(field)

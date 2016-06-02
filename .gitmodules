@@ -1,0 +1,3 @@
+[submodule "cjk-decomp"]
+	path = cjk-decomp
+	url = https://github.com/amake/cjk-decomp.git

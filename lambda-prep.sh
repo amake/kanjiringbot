@@ -9,7 +9,7 @@ if [ -f lambda-deploy.zip ]; then
     rm lambda-deploy.zip
 fi
 
-zip lambda-deploy *.py *.json *.txt
+zip lambda-deploy *.py *.json cjk-decomp/cjk-decomp.txt
 
 cd env/lib/python2.7/site-packages
 zip -r ../../../../lambda-deploy .
