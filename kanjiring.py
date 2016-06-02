@@ -26,7 +26,11 @@ directions = ['top', 'right', 'bottom', 'left']
 format = re.compile(r'^(?P<char>[^:]+):(?P<dtype>[^\(]+)'
                     r'\((?P<dchars>[^\)]*)\)\s*$')
 
-decomp = {}
+ids_pattern = re.compile(ur'^(?P<idc>[\u2ff0-\u2ffb])'
+                         ur'(?P<parts>[^\[\s]+)'
+                         ur'(?P<flags>\[[A-Z]+\])?$')
+
+decomp = defaultdict(list)
 
 center_chars = defaultdict(lambda: defaultdict(set))
 
@@ -38,38 +42,41 @@ mobile_only = True
 
 non_radicals_only = True
 
-with open('cjk-decomp/cjk-decomp.txt', encoding='utf-8') as f:
+with open('cjkvi-ids/ids.txt', encoding='utf-8') as f:
     for line in f:
-        m = format.match(line)
-        char, dtype, dchars = [m.group(field)
-                               for field in ['char', 'dtype', 'dchars']]
-        dchars = dchars.split(',')
-        if dtype not in ['a', 'ra', 'd', 'rd']:
-            # Ignore entries with decomposition type other than
-            # 'across', 'down', 'repeated across', or 'repeated down'
+        if line.startswith('#'):
             continue
-        if dtype in ['a', 'd'] and len(dchars) != 2:
-            # Ignore a, d entries with more than two components
-            continue
-        if any(len(c) == 5 for c in dchars + [char]):
-            # Ignore entries with intermediate components
-            continue
-        if bmp_only and any(ord(c) > 0xffff for c in dchars + [char]):
-            continue
-        if joyo_only and any(c not in cjkinfo.joyo for c in dchars + [char]):
-            continue
-        if mobile_only and any(not cjkinfo.mobile_ok.match(c)
-                               for c in dchars + [char]):
-            continue
-        if non_radicals_only and any(c in cjkinfo.radicals
-                                     for c in dchars + [char]):
-            continue
-        if dtype in ['ra', 'rd']:
-            dchars += dchars
-        horizontal = dtype in ['a', 'ra']
-        center_chars[dchars[0]]['right' if horizontal else 'bottom'].add(char)
-        center_chars[dchars[-1]]['left' if horizontal else 'top'].add(char)
-        decomp[char] = dchars
+        fields = line.split('\t')
+        char = fields[1]
+        idss = fields[2:]
+        for ids in idss:
+            m = ids_pattern.match(ids)
+            if not m:
+                continue
+            idc, parts = [m.group(g) for g in ['idc', 'parts']]
+            if idc not in u'\u2ff0\u2ff1':
+                # Only support LEFT TO RIGHT and ABOVE TO BELOW
+                continue
+            if len(parts) > 2:
+                # Only support simple 2-part compositions
+                continue
+            if any(c >= u'\u2460' and c <= u'\u2473' for c in char + parts):
+                # Don't support unencoded DCs
+                continue
+            if bmp_only and any(ord(c) > 0xffff for c in char + parts):
+                continue
+            if joyo_only and any(c not in cjkinfo.joyo for c in char + parts):
+                continue
+            if mobile_only and any(not cjkinfo.mobile_ok.match(c)
+                                   for c in char + parts):
+                continue
+            if non_radicals_only and any(c in cjkinfo.radicals
+                                         for c in char + parts):
+                continue
+            horizontal = idc == u'\u2ff0'
+            center_chars[parts[0]]['right' if horizontal else 'bottom'].add(char)
+            center_chars[parts[1]]['left' if horizontal else 'top'].add(char)
+            decomp[char].append(parts)
 
 
 def is_complete(ring):
@@ -89,7 +96,7 @@ def random_ring(c):
     return [random.choice(list(ring[d])) for d in directions]
 
 def make_ring_text(center, trbl):
-    t, r, b, l = [decomp[c][off] for c, off in zip(trbl, [0, 1, 1, 0])]
+    t, r, b, l = [random.choice(decomp[c])[off] for c, off in zip(trbl, [0, 1, 1, 0])]
     return u'\u3000%s\n%s%s%s\n\u3000%s' % (t, l, center, r, b)
 
 def make_snippet(c, trbl):

@@ -1,3 +1,6 @@
 [submodule "cjk-decomp"]
 	path = cjk-decomp
 	url = https://github.com/amake/cjk-decomp.git
+[submodule "cjkvi-ids"]
+	path = cjkvi-ids
+	url = https://github.com/cjkvi/cjkvi-ids.git

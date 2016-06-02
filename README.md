@@ -24,5 +24,4 @@ MIT
 # Acknowledgments
 
 This project uses kanji decomposition data from
-[cjk-decomp](https://github.com/amake/cjk-decomp.git) under the
-Apache-2.0 license.
+[cjkvi-ids](https://github.com/cjkvi/cjkvi-ids) under GPLv2.
