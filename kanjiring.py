@@ -40,7 +40,7 @@ bmp_only = False
 
 mobile_only = True
 
-non_radicals_only = True
+non_radicals_only = False
 
 with open('cjkvi-ids/ids.txt', encoding='utf-8') as f:
     for line in f:
