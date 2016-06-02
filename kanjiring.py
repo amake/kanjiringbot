@@ -24,7 +24,7 @@ from collections import defaultdict
 directions = ['top', 'right', 'bottom', 'left']
 
 ids_pattern = re.compile(ur'^(?P<idc>[\u2ff0-\u2ffb])'
-                         ur'(?P<parts>[^\[\s]+)'
+                         ur'(?P<parts>[^\[]+)'
                          ur'(?P<flags>\[[A-Z]+\])?$')
 
 decomp = defaultdict(list)
@@ -43,7 +43,7 @@ with open('cjkvi-ids/ids.txt', encoding='utf-8') as f:
     for line in f:
         if line.startswith('#'):
             continue
-        fields = line.split('\t')
+        fields = line.strip().split('\t')
         char = fields[1]
         idss = fields[2:]
         for ids in idss:
