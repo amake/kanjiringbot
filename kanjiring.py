@@ -23,9 +23,6 @@ from collections import defaultdict
 
 directions = ['top', 'right', 'bottom', 'left']
 
-format = re.compile(r'^(?P<char>[^:]+):(?P<dtype>[^\(]+)'
-                    r'\((?P<dchars>[^\)]*)\)\s*$')
-
 ids_pattern = re.compile(ur'^(?P<idc>[\u2ff0-\u2ffb])'
                          ur'(?P<parts>[^\[\s]+)'
                          ur'(?P<flags>\[[A-Z]+\])?$')
