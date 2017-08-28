@@ -92,16 +92,20 @@ def random_ring(c):
         return None
     return [random.choice(list(ring[d])) for d in directions]
 
-def make_ring_text(center, trbl):
-    t, r, b, l = [random.choice(decomp[c])[off] for c, off in zip(trbl, [0, 1, 1, 0])]
-    return u'\u3000%s\n%s%s%s\n\u3000%s' % (t, l, center, r, b)
+def random_decomp(center, trbl):
+    return [random.choice([dec for dec in decomp[c] if center in dec])[off]
+            for c, off in zip(trbl, [0, 1, 1, 0])]
 
-def make_snippet(c, trbl):
-    return u'%s\n\n%s' % (' + '.join(trbl), make_ring_text(c, trbl))
+def make_snippet(c, trbl, trbl_decomp):
+    t, r, b, l = trbl_decomp
+    ring = u'\u3000%s\n%s%s%s\n\u3000%s' % (t, l, c, r, b)
+    return u'%s\n\n%s' % (' + '.join(trbl), ring)
 
 def random_snippet():
     c = random_center()
-    return make_snippet(c, random_ring(c))
+    ring = random_ring(c)
+    ring_decomp = random_decomp(c, ring)
+    return make_snippet(c, ring, ring_decomp)
 
 
 if __name__ == '__main__':
@@ -115,4 +119,5 @@ if __name__ == '__main__':
         if trbl is None:
             print('No ring possible for', c)
             continue
-        print(make_snippet(c, trbl))
+        decomp_trbl = random_decomp(c, trbl)
+        print(make_snippet(c, trbl, decomp_trbl))
