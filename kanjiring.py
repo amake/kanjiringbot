@@ -71,13 +71,15 @@ with open('cjkvi-ids/ids.txt', encoding='utf-8') as f:
                                          for c in char + parts):
                 continue
             horizontal = idc == u'\u2ff0'
-            center_chars[parts[0]]['right' if horizontal else 'bottom'].add(char)
+            center_chars[parts[0]
+                         ]['right' if horizontal else 'bottom'].add(char)
             center_chars[parts[1]]['left' if horizontal else 'top'].add(char)
             decomp[char].append(parts)
 
 
 def is_complete(ring):
     return all(d in ring for d in directions)
+
 
 def random_center():
     while True:
@@ -86,20 +88,24 @@ def random_center():
         if is_complete(ring):
             return c
 
+
 def random_ring(c):
     ring = center_chars[c]
     if not is_complete(ring):
         return None
     return [random.choice(list(ring[d])) for d in directions]
 
+
 def random_decomp(center, trbl):
     return [random.choice([dec for dec in decomp[c] if center in dec])[off]
             for c, off in zip(trbl, [0, 1, 1, 0])]
+
 
 def make_snippet(c, trbl, trbl_decomp):
     t, r, b, l = trbl_decomp
     ring = u'\u3000%s\n%s%s%s\n\u3000%s' % (t, l, c, r, b)
     return u'%s\n\n%s' % (' + '.join(trbl), ring)
+
 
 def random_snippet():
     c = random_center()
