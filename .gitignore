@@ -1,4 +1,5 @@
 env
+work
 credentials.json
 *.pyc
 *.egg-info
