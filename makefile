@@ -24,7 +24,7 @@ update: | env
 $(payload): *.py credentials.json $(ids-txt) | env work
 	rm -rf $(@)
 	zip $(@) $(^) -x \*.pyc
-	root=$$(pwd); cd env/lib/python2.7/site-packages; \
+	root=$$(pwd); cd env/lib/python3.6/site-packages; \
 		zip -r $$root/$(@) ./!(pip*|wheel*|setuptools*|easy_install*) -x \*.pyc
 
 $(ids-txt):

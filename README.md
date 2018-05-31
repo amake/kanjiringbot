@@ -15,7 +15,7 @@ the 口 component.
 
 # Requirements
 
-- Python 2.7 (["wide" build](http://stackoverflow.com/a/25112348/448068))
+- Python 3.6
 
 # License
 

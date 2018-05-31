@@ -24,7 +24,7 @@ if os.path.isfile(creds_file):
 
 for item in ['ConsumerKey', 'ConsumerSecret']:
     if item not in credentials:
-        credentials[item] = raw_input('%s: ' % item)
+        credentials[item] = input('%s: ' % item)
 
 write_creds(credentials)
 
@@ -35,7 +35,7 @@ auth_url = auth.get_authorization_url()
 
 print('Go to:', auth_url)
 
-verifier = raw_input('PIN: ')
+verifier = input('PIN: ')
 credentials['AccessToken'], credentials['AccessSecret'] = auth.get_access_token(
     verifier)
 
