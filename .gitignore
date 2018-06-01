@@ -1,6 +1,5 @@
 .env
-work
+/dist
 credentials.json
 *.pyc
 *.egg-info
-*.zip

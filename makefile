@@ -1,6 +1,6 @@
 SHELL := /bin/bash -O extglob
 ids-txt := cjkvi-ids/ids.txt
-payload := work/lambda-deploy.zip
+payload := dist/lambda-deploy.zip
 lambda-name := KanjinowaTwitterBot
 
 .PHONY = zip clean update deploy test
@@ -11,17 +11,17 @@ zip: $(payload)
 	virtualenv .env
 	.env/bin/pip install -e .
 
-work:
+dist:
 	mkdir -p $(@)
 
 clean:
-	rm -rf work
+	rm -rf dist
 
 update: | .env
 	.env/bin/pip install --upgrade -e .
 	cd cjkvi-ids; git checkout master && git pull
 
-$(payload): *.py credentials.json $(ids-txt) | .env work
+$(payload): *.py credentials.json $(ids-txt) | .env dist
 	rm -rf $(@)
 	zip $(@) $(^) -x \*.pyc
 	root=$$(pwd); cd .env/lib/python3.6/site-packages; \
