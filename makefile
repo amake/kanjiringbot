@@ -1,5 +1,5 @@
 SHELL := /bin/bash -O extglob
-ids-txt := cjkvi-ids/ids.txt
+ids-txt := vendor/cjkvi-ids/ids.txt
 payload := dist/lambda-deploy.zip
 lambda-name := KanjinowaTwitterBot
 
@@ -19,7 +19,7 @@ clean:
 
 update: | .env
 	.env/bin/pip install --upgrade -e .
-	cd cjkvi-ids; git checkout master && git pull
+	cd vendor/cjkvi-ids; git checkout master && git pull
 
 $(payload): *.py credentials.json $(ids-txt) | .env dist
 	rm -rf $(@)
