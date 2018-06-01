@@ -1,4 +1,4 @@
-env
+.env
 work
 credentials.json
 *.pyc
