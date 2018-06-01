@@ -27,6 +27,9 @@ $(payload): *.py credentials.json $(ids-txt) | .env work
 	root=$$(pwd); cd .env/lib/python3.6/site-packages; \
 		zip -r $$root/$(@) ./!(pip*|wheel*|setuptools*|easy_install*) -x \*.pyc
 
+credentials.json:
+	.env/bin/python auth_setup.py
+
 $(ids-txt):
 	git submodule sync
 	git submodule update
