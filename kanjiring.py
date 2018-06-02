@@ -39,7 +39,7 @@ mobile_only = True
 
 non_radicals_only = False
 
-with open('cjkvi-ids/ids.txt', encoding='utf-8') as f:
+with open('vendor/cjkvi-ids/ids.txt', encoding='utf-8') as f:
     for line in f:
         if line.startswith('#'):
             continue
