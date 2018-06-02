@@ -39,5 +39,5 @@ deploy: $(payload)
 		--function-name $(lambda-name) \
 		--zip-file fileb://$$(pwd)/$(<)
 
-test: | .env
+test: | $(ids-txt) .env
 	.env/bin/python kanjiring.py
