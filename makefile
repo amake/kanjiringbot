@@ -2,6 +2,7 @@ SHELL := /bin/bash -O extglob
 ids-txt := vendor/cjkvi-ids/ids.txt
 payload := dist/lambda-deploy.zip
 lambda-name := KanjinowaTwitterBot
+aws-args ?=
 
 .PHONY = zip clean update deploy test
 
@@ -35,7 +36,7 @@ $(ids-txt):
 	git submodule update
 
 deploy: $(payload)
-	aws lambda update-function-code \
+	aws $(aws-args) lambda update-function-code \
 		--function-name $(lambda-name) \
 		--zip-file fileb://$$(pwd)/$(<)
 
