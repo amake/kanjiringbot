@@ -4,7 +4,7 @@ payload := dist/lambda-deploy.zip
 lambda-name := KanjinowaTwitterBot
 aws-args ?=
 
-.PHONY = zip clean update deploy test
+.PHONY = zip clean update deploy invoke test
 
 zip: $(payload)
 
@@ -39,6 +39,11 @@ deploy: $(payload)
 	aws $(aws-args) lambda update-function-code \
 		--function-name $(lambda-name) \
 		--zip-file fileb://$$(pwd)/$(<)
+
+invoke:
+	aws $(aws-args) lambda invoke \
+		--function-name $(lambda-name) \
+		/dev/null
 
 test: | $(ids-txt) .env
 	.env/bin/python kanjiring.py
