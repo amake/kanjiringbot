@@ -105,10 +105,13 @@ def random_decomp(center, trbl):
 
 def make_snippet(c, trbl, trbl_decomp):
     t, r, b, l = trbl
-    ring = u'\u3000%s\u3000\u3000\u3000\n%s\u3000%s\u3000\u2192\n\u3000%s\u3000\u3000\u3000' % (
-        t, l, r, b)
+    ring = (u'\u3000%s\u3000\u3000\u3000\n'
+            u'%s\u3000%s\u3000\u2192\n'
+            u'\u3000%s\u3000\u3000\u3000') % (t, l, r, b)
     t, r, b, l = trbl_decomp
-    decomp_ring = u'\u3000%s\n%s%s%s\n\u3000%s' % (t, l, c, r, b)
+    decomp_ring = (u'\u3000%s\n'
+                   u'%s%s%s\n'
+                   u'\u3000%s') % (t, l, c, r, b)
     # Splice rings together
     lines = ['\u3000'.join(line)
              for line in zip(ring.split('\n'), decomp_ring.split('\n'))]
