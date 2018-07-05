@@ -52,7 +52,9 @@ with open('vendor/cjkvi-ids/ids.txt', encoding='utf-8') as f:
                 continue
             idc, parts = [m.group(g) for g in ['idc', 'parts']]
             if idc not in u'\u2ff0\u2ff1':
-                # Only support LEFT TO RIGHT and ABOVE TO BELOW
+                # Only support:
+                # - ⿰ U+2FF0 IDEOGRAPHIC DESCRIPTION CHARACTER LEFT TO RIGHT
+                # - ⿱ U+2FF1 IDEOGRAPHIC DESCRIPTION CHARACTER ABOVE TO BELOW
                 continue
             if len(parts) > 2:
                 # Only support simple 2-part compositions
