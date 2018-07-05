@@ -25,5 +25,6 @@ api = tweepy.API(auth)
 
 def do_tweet(event, context):
     text = kanjiring.random_snippet()
-    api.update_status(text)
+    # Pad with U+200D ZERO WIDTH JOINER to defeat Twitter's trimming
+    api.update_status(u'\u200d' + text)
     return text
