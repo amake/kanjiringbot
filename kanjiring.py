@@ -119,7 +119,7 @@ def random_snippet():
 if __name__ == '__main__':
     print('Rings available for:')
     print(''.join(c for c, w in center_chars.items() if is_complete(w)))
-    centers = [arg.decode('utf-8') for arg in sys.argv[1:]]
+    centers = sys.argv[1:]
     if not centers:
         centers = random_center()
     for c in centers:
