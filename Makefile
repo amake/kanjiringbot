@@ -20,7 +20,8 @@ clean:
 
 .PHONY: update
 update: | .env
-	.env/bin/pip install --upgrade -e .
+	.env/bin/pip install --upgrade pip
+	.env/bin/pip install --upgrade --upgrade-strategy eager -e .
 	cd vendor/cjkvi-ids; git checkout master && git pull
 
 $(payload): *.py credentials.json $(ids-txt) | .env dist
