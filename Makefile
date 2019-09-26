@@ -4,8 +4,7 @@ payload := dist/lambda-deploy.zip
 lambda-name := KanjinowaTwitterBot
 aws-args ?=
 
-.PHONY = zip clean update deploy invoke test
-
+.PHONY: zip
 zip: $(payload)
 
 .env:
@@ -15,9 +14,11 @@ zip: $(payload)
 dist:
 	mkdir -p $(@)
 
+.PHONY: clean
 clean:
 	rm -rf dist
 
+.PHONY: update
 update: | .env
 	.env/bin/pip install --upgrade -e .
 	cd vendor/cjkvi-ids; git checkout master && git pull
@@ -35,15 +36,18 @@ $(ids-txt):
 	git submodule sync
 	git submodule update
 
+.PHONY: deploy
 deploy: $(payload)
 	aws $(aws-args) lambda update-function-code \
 		--function-name $(lambda-name) \
 		--zip-file fileb://$$(pwd)/$(<)
 
+.PHONY: invoke
 invoke:
 	aws $(aws-args) lambda invoke \
 		--function-name $(lambda-name) \
 		/dev/null
 
+.PHONY: test
 test: | $(ids-txt) .env
 	.env/bin/python kanjiring.py
