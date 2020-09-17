@@ -33,7 +33,7 @@ $(payload): *.py credentials.json $(ids-txt) | .env dist
 	root=$$(pwd); cd .env/lib/${python}/site-packages; \
 		zip -r $$root/$(@) ./!(pip*|wheel*|setuptools*|easy_install*) -x \*.pyc
 
-credentials.json:
+credentials.json: | .env
 	.env/bin/python auth_setup.py
 
 $(ids-txt):
