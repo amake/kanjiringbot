@@ -2,13 +2,14 @@ SHELL := /bin/bash -O extglob
 ids-txt := vendor/cjkvi-ids/ids.txt
 payload := dist/lambda-deploy.zip
 lambda-name := KanjinowaTwitterBot
+python := python3.8
 aws-args ?=
 
 .PHONY: zip
 zip: $(payload)
 
 .env:
-	virtualenv .env
+	virtualenv -p ${python} ${@}
 	.env/bin/pip install -e .
 
 dist:
@@ -29,7 +30,7 @@ update: | .env
 $(payload): *.py credentials.json $(ids-txt) | .env dist
 	rm -rf $(@)
 	zip $(@) $(^) -x \*.pyc
-	root=$$(pwd); cd .env/lib/python3.6/site-packages; \
+	root=$$(pwd); cd .env/lib/${python}/site-packages; \
 		zip -r $$root/$(@) ./!(pip*|wheel*|setuptools*|easy_install*) -x \*.pyc
 
 credentials.json:
