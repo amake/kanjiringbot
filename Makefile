@@ -38,7 +38,7 @@ credentials.json: | .env
 
 $(ids-txt):
 	git submodule sync
-	git submodule update
+	git submodule update --init
 
 .PHONY: deploy
 deploy: ## Deploy to AWS Lambda
