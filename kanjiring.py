@@ -17,8 +17,8 @@ from __future__ import print_function
 import sys
 import random
 import re
-import cjkinfo
 from collections import defaultdict
+import cjkinfo
 
 directions = ['top', 'right', 'bottom', 'left']
 
@@ -58,7 +58,7 @@ with open('vendor/cjkvi-ids/ids.txt', encoding='utf-8') as f:
             if len(parts) > 2:
                 # Only support simple 2-part compositions
                 continue
-            if any(c >= u'\u2460' and c <= u'\u2473' for c in char + parts):
+            if any('\u2460' <= c <= u'\u2473' for c in char + parts):
                 # Don't support unencoded DCs
                 continue
             if bmp_only and any(ord(c) > 0xffff for c in char + parts):
