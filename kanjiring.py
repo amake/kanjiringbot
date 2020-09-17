@@ -18,7 +18,6 @@ import sys
 import random
 import re
 import cjkinfo
-from codecs import open
 from collections import defaultdict
 
 directions = ['top', 'right', 'bottom', 'left']
