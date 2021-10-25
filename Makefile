@@ -1,4 +1,5 @@
 SHELL := /bin/bash -O extglob
+venv := .env
 ids-txt := vendor/cjkvi-ids/ids.txt
 payload := dist/lambda-deploy.zip
 lambda-name := KanjinowaTwitterBot
@@ -8,7 +9,7 @@ aws-args ?=
 .PHONY: zip
 zip: $(payload)
 
-.env:
+$(venv):
 	virtualenv -p $(python) $(@)
 	$(@)/bin/pip install -e .
 
@@ -22,19 +23,19 @@ clean:
 
 .PHONY: update
 update: ## Update dependencies and data
-update: | .env
-	.env/bin/pip install --upgrade pip
-	.env/bin/pip install --upgrade --upgrade-strategy eager -e .
+update: | $(venv)
+	$(venv)/bin/pip install --upgrade pip
+	$(venv)/bin/pip install --upgrade --upgrade-strategy eager -e .
 	cd vendor/cjkvi-ids; git checkout master && git pull
 
-$(payload): *.py credentials.json $(ids-txt) | .env dist
+$(payload): *.py credentials.json $(ids-txt) | $(venv) dist
 	rm -rf $(@)
 	zip $(@) $(^) -x \*.pyc
-	root=$$(pwd); cd .env/lib/$(python)/site-packages; \
+	root=$$(pwd); cd $(venv)/lib/$(python)/site-packages; \
 		zip -r $$root/$(@) ./!(pip*|wheel*|setuptools*|easy_install*) -x \*.pyc
 
-credentials.json: | .env
-	.env/bin/python auth_setup.py
+credentials.json: | $(venv)
+	$(venv)/bin/python auth_setup.py
 
 $(ids-txt):
 	git submodule sync
@@ -56,8 +57,8 @@ invoke:
 
 .PHONY: test
 test: ## Test locally
-test: | $(ids-txt) .env
-	.env/bin/python kanjiring.py
+test: | $(ids-txt) $(venv)
+	$(venv)/bin/python kanjiring.py
 
 .PHONY: help
 help: ## Show this help text
