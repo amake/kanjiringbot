@@ -3,7 +3,7 @@ venv := .env
 ids-txt := vendor/cjkvi-ids/ids.txt
 payload := dist/lambda-deploy.zip
 lambda-name := KanjinowaTwitterBot
-python := python3.8
+python := python3.9
 aws-args ?=
 
 .PHONY: zip
