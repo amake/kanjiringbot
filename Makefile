@@ -9,8 +9,8 @@ aws-args ?=
 zip: $(payload)
 
 .env:
-	virtualenv -p ${python} ${@}
-	.env/bin/pip install -e .
+	virtualenv -p $(python) $(@)
+	$(@)/bin/pip install -e .
 
 dist:
 	mkdir -p $(@)
@@ -30,7 +30,7 @@ update: | .env
 $(payload): *.py credentials.json $(ids-txt) | .env dist
 	rm -rf $(@)
 	zip $(@) $(^) -x \*.pyc
-	root=$$(pwd); cd .env/lib/${python}/site-packages; \
+	root=$$(pwd); cd .env/lib/$(python)/site-packages; \
 		zip -r $$root/$(@) ./!(pip*|wheel*|setuptools*|easy_install*) -x \*.pyc
 
 credentials.json: | .env
